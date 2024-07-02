@@ -1,0 +1,46 @@
+
+{% extends 'base2.html' %}
+
+{% block title %}View Students{% endblock %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h2 class="mb-4">Students List</h2>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Age</th>
+                        <th>DOB</th>
+                        <th>Place</th>
+                        <th>Address</th>
+                        <th>Department</th>
+                        <th>Image</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for student in students %}
+                    <tr>
+                        <td>{{ student.name }}</td>
+                        <td>{{ student.age }}</td>
+                        <td>{{ student.dob }}</td>
+                        <td>{{ student.place }}</td>
+                        <td>{{ student.address }}</td>
+                        <td>{{ student.department }}</td>
+                        <td><img src="{{ student.image.url }}" class="img-thumbnail" width="100"></td>
+                        <td>
+                            <a href="{% url 'update_student' student.id %}" class="btn btn-sm btn-primary">Edit</a>
+                            <form method="POST" action="{% url 'delete_student' student.id %}" style="display:inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete {{ student.name }}?')">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
